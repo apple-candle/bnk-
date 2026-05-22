@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<th:block th:fragment="header_default">
+	<header>
+		<div>
+			<img th:src="@{/images/logo.png}" alt="BNK 부산은행">
+		</div>
+		<nav>
+			<a th:href="@{/}">홈</a>
+			<a th:href="@{/loginPage}">로그인</a>
+			<a th:href="@{/signupPage}">회원가입</a>
+		</nav>
+	</header>
+</th:block>
+
+<th:block th:fragment="header_product">
+	<header>
+		<div>
+			<img th:src="@{/images/logo.png}" alt="BNK 부산은행">
+		</div>
+	</header>
+</th:block>
+
+</body>
+</html>
