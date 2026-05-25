@@ -14,7 +14,7 @@ public interface IBankMemberDao {
 	public BankMemberDto findByUsername(@Param("id") String id);
 	
 	// 회원 등록
-	public int regist(@Param("dto") BankMemberDto dto);
+	public int regist(BankMemberDto dto);
 	
 	// 회원 정보 수정
 	public int editMember(@Param("dto") BankMemberDto dto);

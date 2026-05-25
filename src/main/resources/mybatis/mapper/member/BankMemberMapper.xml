@@ -11,16 +11,35 @@
 	</select>
 	
 	<insert id="regist">
-		INSERT INTO TB_BANK_MEMBER(
-	        login_id, password_hash, member_name, member_type, member_identifier,
-	        gender, birth_date, phone_number, email, adress, credit_score
+        INSERT INTO TB_BANK_MEMBER(
+            MEMBER_NO,
+            LOGIN_ID,
+            PASSWORD_HASH,
+            MEMBER_NAME,
+            MEMBER_TYPE,
+            MEMBER_IDENTIFIER,
+            GENDER,
+            BIRTH_DATE,
+            PHONE_NUMBER,
+            EMAIL,
+            ADRESS,
+            CREDIT_SCORE
         )
-    	VALUES(
-    		#{dto.login_id}, #{dto.password_hash}, #{dto.member_name}, #{dto.member_type},
-	    	#{dto.member_identifier}, #{dto.gender}, #{dto.birth_date}, #{dto.phone_number},
-	    	#{dto.email}, #{dto.adress}, #{dto.credit_score}
-    	)
-	</insert>
+        VALUES(
+            SEQ_TB_BANK_MEMBER_NO.NEXTVAL,
+            #{login_id},
+            #{password_hash},
+            #{member_name},
+            #{member_type},
+            #{member_identifier},
+            #{gender},
+            #{birth_date},
+            #{phone_number},
+            #{email},
+            #{adress},
+            #{credit_score}
+        )
+    </insert>
 	
 	<update id="editMember">
     <set>
@@ -28,7 +47,7 @@
         <if test="dto.phone_number != null">phone_number = #{dto.phone_number},</if>
         <if test="dto.email != null">email = #{dto.email},</if>
         <if test="dto.adress != null">adress = #{dto.adress},</if>
-        UPDATE_AT = SYSDATE
+        UPDATED_AT = SYSDATE
     </set>
     WHERE login_id = #{dto.login_id}
     </update>
@@ -56,7 +75,7 @@
             CREDIT_SCORE,
             MEMBER_STATUS,
             CREATED_AT,
-            UPDATE_AT,
+            UPDATED_AT,
             LAST_LOGIN_AT
         FROM tb_bank_member
         WHERE LOGIN_ID = #{loginId}
@@ -69,7 +88,7 @@
     <update id="updatePassword">
         UPDATE TB_BANK_MEMBER
         SET PASSWORD_HASH = #{newPassword},
-            UPDATE_AT = SYSDATE
+            UPDATED_AT = SYSDATE
         WHERE LOGIN_ID = #{loginId}
     </update>
     
@@ -86,7 +105,7 @@
 	<update id="withdrawMember">
 	    UPDATE TB_BANK_MEMBER
 	    SET MEMBER_STATUS = 'WITHDRAWN',
-	        UPDATE_AT = SYSDATE
+	        UPDATED_AT = SYSDATE
 	    WHERE LOGIN_ID = #{loginId}
 	</update>
 	
@@ -94,7 +113,7 @@
 	<update id="updateMemberStatus">
 	    UPDATE TB_BANK_MEMBER
 	    SET MEMBER_STATUS = #{memberStatus},
-	        UPDATE_AT = SYSDATE
+	        UPDATED_AT = SYSDATE
 	    WHERE LOGIN_ID = #{loginId}
 	</update>
 </mapper>

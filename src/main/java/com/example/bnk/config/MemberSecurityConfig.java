@@ -35,11 +35,9 @@ public class MemberSecurityConfig {
 	@Bean	@Order(1)
 	SecurityFilterChain memberFilterChain(HttpSecurity http) {
 		
-		http.csrf(csrf -> csrf.disable());
-		
 		// 권한별 제어
 		http.userDetailsService(memberDetailsService)
-			.securityMatcher("/member/**", "/loginPage", "/signupPage", "/api/member/**", "/api/dormant/**", "/dormant/**")
+			.securityMatcher("/member/**", "/loginPage", "/signupPage", "/api/member/**", "/dormant/**", "/api/dormant/**")
 			.authorizeHttpRequests(auth -> auth.anyRequest().permitAll()
 		);
 		

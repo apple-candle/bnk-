@@ -61,4 +61,10 @@ public class BankMemberPageController {
 	public String dormantRelease() {
 	    return "member/dormant_release";
 	}
+
+	// 가입상품 상세 화면
+	@GetMapping("/myproducts/detail")
+	public String myProductsDetail() {
+		return "member/myproducts_detail";
+	}
 }

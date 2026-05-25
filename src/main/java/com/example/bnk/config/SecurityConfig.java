@@ -27,8 +27,6 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) {
 		
-		http.csrf(csrf -> csrf.disable());
-		
 		// 권한별 제어
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/css/**", "/js/**", "/images/**", "/**").permitAll()

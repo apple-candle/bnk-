@@ -41,8 +41,10 @@ function changeMemberType() {
 }
 
 function mergeIdentifier() {
-	const memberType = document.getElementById("memberType").value;
+    const memberType = document.getElementById("memberType").value;
     const memberIdentifier = document.getElementById("memberIdentifier");
+    const birthDateInput = document.getElementById("birthDate");
+    const genderInput = document.getElementById("gender");
 
     if (memberType === "PERSONAL") {
         const id1 = document.getElementById("personalId1").value;
@@ -54,6 +56,30 @@ function mergeIdentifier() {
         }
 
         memberIdentifier.value = id1 + id2;
+
+        const yy = id1.substring(0, 2);
+        const mm = id1.substring(2, 4);
+        const dd = id1.substring(4, 6);
+        const genderCode = id2.charAt(0);
+
+        let century = "";
+
+        if (genderCode === "1" || genderCode === "2") {
+            century = "19";
+        } else if (genderCode === "3" || genderCode === "4") {
+            century = "20";
+        } else {
+            alert("주민등록번호 뒷자리 형식이 올바르지 않습니다.");
+            return false;
+        }
+
+        birthDateInput.value = `${century}${yy}-${mm}-${dd}`;
+
+        if (genderCode === "1" || genderCode === "3") {
+            genderInput.value = "M";
+        } else {
+            genderInput.value = "F";
+        }
     }
 
     if (memberType === "BUSINESS") {
@@ -67,7 +93,13 @@ function mergeIdentifier() {
         }
 
         memberIdentifier.value = id1 + "-" + id2 + "-" + id3;
-		console.log(identifier);
+
+        // 기업회원은 gender가 NULL 가능
+        genderInput.value = "";
+
+        // 임시로 오늘 날짜를 개업일자로 넣는 방식
+        // 나중에는 개업일자 입력칸을 따로 만드는 게 더 좋음
+        birthDateInput.value = new Date().toISOString().substring(0, 10);
     }
 
     return true;
@@ -132,13 +164,22 @@ function signup(){
 	}
 	
 	fetch("/api/member/2/member", {
-		method : "post",
-		body : new FormData(document.getElementById("frm"))
+    method: "post",
+    body: new FormData(document.getElementById("frm"))
 	})
-	.then(data=> data.json())
-	.then(data=> {
-		alert('로그인 성공!');
-		location.href="/loginPage";
+	.then(response => {
+		if (!response.ok) {
+			throw new Error("회원가입 요청 실패: " + response.status);
+		}
+		return response.json();
 	})
+	.then(data => {
+		alert("회원가입 성공!");
+		location.href = "/loginPage";
+	})
+	.catch(err => {
+		console.error(err);
+		alert("회원가입에 실패했습니다. 콘솔과 서버 로그를 확인하세요.");
+	});
 	
 }
